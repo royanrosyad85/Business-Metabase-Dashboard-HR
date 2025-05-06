@@ -34,7 +34,6 @@ Untuk mencapai tujuan dan mengatasi permasalahan bisnis di atas, cakupan proyek 
 **Catatan:**  
 Link dashboard akhir dapat ditemukan di bagian **Final Result Dashboard** di bawah.
 
----
 
 ### Setup Database dengan Supabase
 
