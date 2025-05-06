@@ -28,45 +28,40 @@ Untuk mencapai tujuan dan mengatasi permasalahan bisnis di atas, cakupan proyek 
 
 ## Persiapan
 
-Sebelum memulai analisis dan pengembangan dashboard, beberapa langkah persiapan perlu dilakukan agar proses berjalan lancar dan terstruktur. Dataset yang digunakan dalam proyek ini berasal dari PT Jaya Jaya Maju, sebuah perusahaan edutech multinasional di Indonesia. Data ini mencakup informasi karyawan seperti status attrition, kepuasan kerja, masa kerja, serta faktor-faktor lain yang relevan untuk menganalisis retensi tenaga kerja.
+> **Disclaimer:**  
+> Pada tutorial ini, saya melakukan self-hosted Metabase melalui **Azure App Service**, **bukan** menggunakan Docker lokal. Jadi, beberapa langkah deployment menyesuaikan dengan ekosistem Azure App Service.
 
-### Langkah-Langkah Persiapan
+**Catatan:**  
+Link dashboard akhir dapat ditemukan di bagian **Final Result Dashboard** di bawah.
 
-1. **Pengaturan Lingkungan Kerja**
-   - Buat dan aktifkan environment Conda baru untuk proyek ini:
-     ```bash
-     conda create --name proyek-human-resources python==3.9.15
-     ```
-   - Instal library dan dependensi yang dibutuhkan menggunakan file `requirements.txt`:
-     ```bash
-     pip install -r requirements.txt
-     ```
+---
 
-2. **Instalasi dan Konfigurasi Metabase**
-   - Jalankan Metabase menggunakan Docker:
-     ```bash
-     docker pull metabase/metabase:v0.46.4
-     docker run -p 3000:3000 --name metabase metabase/metabase
-     ```
-   - Setelah container dijalankan, akses halaman setup Metabase melalui browser:
-     ```
-     http://localhost:3000/setup
-     ```
-   - Ikuti langkah-langkah konfigurasi awal untuk menyiapkan dashboard interaktif.
+### Setup Database dengan Supabase
 
-3. **Setup Database dengan Supabase**
-   - Daftar dan login ke akun Supabase melalui [https://supabase.com/dashboard/sign-in](https://supabase.com/dashboard/sign-in).
-   - Buat project baru pada dashboard Supabase.
-   - Salin URI database dari pengaturan database Supabase untuk menghubungkannya ke aplikasi Python.
-   - Kirim dataset ke database menggunakan SQLAlchemy untuk memastikan data dapat diakses oleh dashboard:
+1. **Daftar & Login Supabase**  
+   - Buka [https://supabase.com/dashboard/sign-in](https://supabase.com/dashboard/sign-in).
+   - Daftar akun Supabase (atau login jika sudah punya akun).
+
+2. **Buat Project Baru**  
+   - Setelah login, klik **New Project** di dashboard Supabase.
+   - Ikuti instruksi dan tunggu hingga project/database siap.
+
+3. **Salin URI Database**  
+   - Masuk ke menu **Project Settings** → **Database**.
+   - Salin **Connection String/URI** database. URI ini akan digunakan untuk koneksi aplikasi Python ke Supabase.
+
+4. **Kirim Dataset ke Database dengan Python SQLAlchemy**
+   - Pastikan sudah install library `sqlalchemy` dan `pandas` di environment Python.
+   - Gunakan kode berikut untuk mengirim dataset (misal DataFrame bernama `df`) ke tabel Supabase:
      ```python
      from sqlalchemy import create_engine
 
-     URL = "DATABASE_URL"
+     URL = "DATABASE_URL" 
 
      engine = create_engine(URL)
      df.to_sql('employee_attrition', engine)
      ```
+   - Setelah sukses, data akan tersedia di tabel `employee_attrition` pada database Supabase, dan siap di-query oleh dashboard Metabase.
 
 ## Business Dashboard
 
